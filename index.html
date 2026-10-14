@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Інформаційні системи та технології | Навчальний Портал</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts & OpenDyslexic Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/open-dyslexic" rel="stylesheet">
+
+    <style>
+        /* Base typography */
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dyslexic font class */
+        body.dyslexic-font {
+            font-family: 'OpenDyslexic', 'Inter', sans-serif !important;
+        }
+
+        /* High Contrast Theme */
+        body.high-contrast {
+            background-color: #000000 !important;
+            color: #ffff00 !important;
+        }
+        body.high-contrast .bg-white,
+        body.high-contrast .bg-slate-50,
+        body.high-contrast .bg-slate-100,
+        body.high-contrast .bg-indigo-50,
+        body.high-contrast .bg-slate-800,
+        body.high-contrast .bg-slate-900 {
+            background-color: #111111 !important;
+            color: #ffff00 !important;
+            border-color: #ffff00 !important;
+        }
+        body.high-contrast button,
+        body.high-contrast a,
+        body.high-contrast .card-item {
+            border: 2px solid #ffff00 !important;
+            color: #ffff00 !important;
+            background-color: #000000 !important;
+        }
+        body.high-contrast button:hover,
+        body.high-contrast a:hover {
+            background-color: #ffff00 !important;
+            color: #000000 !important;
+        }
+        body.high-contrast .text-slate-600,
+        body.high-contrast .text-slate-500,
+        body.high-contrast .text-indigo-600,
+        body.high-contrast .text-blue-600 {
+            color: #ffff00 !important;
+        }
+
+        /* Dark Mode Override */
+        body.dark {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        body.dark .bg-white {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+        body.dark .bg-slate-50 {
+            background-color: #0f172a;
+        }
+        body.dark .bg-slate-100 {
+            background-color: #334155;
+        }
+        body.dark .text-slate-800 {
+            color: #f1f5f9;
+        }
+        body.dark .text-slate-600 {
+            color: #cbd5e1;
+        }
+        body.dark .border-slate-200 {
+            border-color: #334155;
+        }
+
+        /* Flip Card Effect */
+        .flip-card {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner,
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+
+        /* Print Styles */
+        @media print {
+            aside, header, #accessibility-panel, #interactive-tools-section, .no-print {
+                display: none !important;
+            }
+            main {
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding: 0 !important;
+            }
+            .card-item {
+                break-inside: avoid;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Reading Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50 no-print">
+        <div id="reading-progress" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-0 transition-all duration-150"></div>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 lg:px-8 py-3 flex items-center justify-between no-print shadow-sm">
+        <div class="flex items-center gap-3">
+            <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-600 hover:text-indigo-600 focus:outline-none" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-slate-900">ІС та Технології</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">Інтерактивний освітній конспект</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search & Accessibility Tools -->
+        <div class="flex items-center gap-2 sm:gap-4">
+            <!-- Search Input -->
+            <div class="relative hidden md:block w-64">
+                <input type="text" id="search-input" placeholder="Пошук матеріалу..." 
+                       class="w-full pl-9 pr-4 py-1.5 text-sm bg-slate-100 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+            </div>
+
+            <!-- Accessibility Settings Button -->
+            <button id="toggle-a11y-btn" class="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-300" title="Налаштування доступності">
+                <i class="fa-solid fa-universal-access text-indigo-600 text-base"></i>
+                <span class="hidden sm:inline">Доступність</span>
+            </button>
+
+            <!-- Tools Shortcut -->
+            <a href="#interactive-tools" class="px-3 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-brain"></i>
+                <span class="hidden sm:inline">Практика</span>
+            </a>
+
+            <!-- Print Button -->
+            <button onclick="window.print()" class="p-2 text-slate-500 hover:text-slate-800 rounded-lg" title="Роздрукувати / Зберегти PDF">
+                <i class="fa-solid fa-print text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Accessibility Control Drawer Modal -->
+    <div id="a11y-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex justify-end no-print">
+        <div class="bg-white w-full max-w-md h-full p-6 shadow-2xl overflow-y-auto flex flex-col justify-between border-l border-slate-200">
+            <div>
+                <div class="flex items-center justify-between border-b pb-4 mb-6">
+                    <h2 class="text-xl font-bold flex items-center gap-2 text-slate-800">
+                        <i class="fa-solid fa-universal-access text-indigo-600"></i>
+                        Панель Доступності
+                    </h2>
+                    <button id="close-a11y-btn" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Theme Selection -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Тема оформлення</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setTheme('light')" class="p-3 text-xs font-medium border rounded-xl flex flex-col items-center gap-1 hover:border-indigo-500 focus:ring-2 focus:ring-indigo-500">
+                            <i class="fa-solid fa-sun text-amber-500 text-lg"></i>
+                            Світла
+                        </button>
+                        <button onclick="setTheme('dark')" class="p-3 text-xs font-medium border rounded-xl flex flex-col items-center gap-1 hover:border-indigo-500 focus:ring-2 focus:ring-indigo-500">
+                            <i class="fa-solid fa-moon text-indigo-400 text-lg"></i>
+                            Темна
+                        </button>
+                        <button onclick="setTheme('high-contrast')" class="p-3 text-xs font-medium border border-yellow-400 bg-black text-yellow-300 rounded-xl flex flex-col items-center gap-1">
+                            <i class="fa-solid fa-eye text-lg"></i>
+                            Контраст
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Font Size Adjustment -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Розмір шрифту</label>
+                    <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-xl">
+                        <button onclick="setFontSize('small')" class="flex-1 py-1.5 text-xs font-bold bg-white rounded-lg shadow-sm hover:bg-slate-50">A- (Малий)</button>
+                        <button onclick="setFontSize('medium')" class="flex-1 py-1.5 text-sm font-bold bg-white rounded-lg shadow-sm hover:bg-slate-50">A (Норма)</button>
+                        <button onclick="setFontSize('large')" class="flex-1 py-1.5 text-base font-bold bg-white rounded-lg shadow-sm hover:bg-slate-50">A+ (Великий)</button>
+                    </div>
+                </div>
+
+                <!-- Dyslexic Font Toggle -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="block text-sm font-semibold text-slate-700">Шрифт для дислексії</span>
+                            <span class="text-xs text-slate-500">OpenDyslexic підтримує легке читання</span>
+                        </div>
+                        <input type="checkbox" id="dyslexia-toggle" onchange="toggleDyslexicFont(this.checked)" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
+                    </div>
+                </div>
+
+                <!-- Reader Focus Mode Toggle -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="block text-sm font-semibold text-slate-700">Режим читача</span>
+                            <span class="text-xs text-slate-500">Приховати сайдбар та зайві елементи</span>
+                        </div>
+                        <input type="checkbox" id="reader-mode-toggle" onchange="toggleReaderMode(this.checked)" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t pt-4 text-xs text-slate-500 text-center">
+                Відповідає міжнародному стандарту <strong>WCAG 2.1 AA</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Shell -->
+    <div class="flex-1 flex max-w-7xl w-full mx-auto relative">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 fixed lg:sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto p-4 z-30 transition-all duration-300 -translate-x-full lg:translate-x-0 no-print">
+            <div class="mb-4 md:hidden">
+                <input type="text" id="mobile-search" placeholder="Пошук..." class="w-full px-3 py-1.5 text-sm bg-slate-100 rounded-lg border">
+            </div>
+
+            <nav class="space-y-1 text-xs font-medium">
+                <div class="px-2 py-1 text-slate-400 uppercase tracking-wider font-bold">Зміст курсів</div>
+                <a href="#sec-1" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">1. Що таке ІС</a>
+                <a href="#sec-2" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">2. Інформаційні процеси</a>
+                <a href="#sec-3" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">3. Структура ІС</a>
+                <a href="#sec-4" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">4. Добір програмних продуктів</a>
+                <a href="#sec-5" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">5. Правові норми та КК України</a>
+                <a href="#sec-6-7" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">6-7. Ліцензії & Open Source</a>
+                <a href="#sec-8" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">8. Етика та обмеження</a>
+                <a href="#sec-9" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">9. Інсталяція/Деінсталяція</a>
+                <a href="#sec-10" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">10. Сумісність ПЗ</a>
+                <a href="#sec-11" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">11. Драйвери & Асистивні технології</a>
+                <a href="#sec-12" class="sidebar-link block px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors">12. Інклюзивність & WCAG</a>
+
+                <div class="px-2 pt-4 pb-1 text-slate-400 uppercase tracking-wider font-bold">Інтерактив</div>
+                <a href="#interactive-tools" class="sidebar-link block px-3 py-2 rounded-lg bg-indigo-50 text-indigo-700 font-bold hover:bg-indigo-100 transition-colors">
+                    <i class="fa-solid fa-award mr-1"></i> Тест & Флеш-картки
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Overlay for Mobile Sidebar -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-20 hidden lg:hidden"></div>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="flex-1 p-4 lg:p-8 space-y-12 overflow-x-hidden">
+
+            <!-- Hero Banner Section -->
+            <section class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl pointer-events-none">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold mb-3 border border-white/30">
+                        <i class="fa-solid fa-graduation-cap mr-1"></i> Повний навчальний конспект
+                    </span>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold mb-4 leading-tight">
+                        Інформаційні системи та цифрові технології
+                    </h1>
+                    <p class="text-indigo-100 text-sm sm:text-base mb-6 leading-relaxed">
+                        Структурований інтерактивний посібник про побудову ІС, класифікацію ПЗ, правову кібербезпеку, ліцензування та сучасні цифрові асистивні технології.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#sec-1" class="px-5 py-2.5 bg-white text-indigo-700 font-bold rounded-xl shadow hover:bg-indigo-50 transition-all text-xs sm:text-sm">
+                            Розпочати навчання
+                        </a>
+                        <a href="#interactive-tools" class="px-5 py-2.5 bg-indigo-800/60 border border-white/30 text-white font-semibold rounded-xl hover:bg-indigo-800 transition-all text-xs sm:text-sm">
+                            Перевірити знання (Тест)
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 1: Що таке ІС -->
+            <section id="sec-1" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">1</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Що таке інформаційні системи (ІС)</h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                    <p class="text-slate-600 leading-relaxed">
+                        <strong class="text-slate-900">Інформаційна система (ІС)</strong> — це організована сукупність технічних, програмних, інформаційних, організаційних і людських ресурсів, призначена для здійснення інформаційних процесів.
+                    </p>
+
+                    <div class="bg-indigo-50/70 border-l-4 border-indigo-600 p-4 rounded-r-xl">
+                        <h3 class="font-bold text-indigo-900 text-sm uppercase tracking-wide">Головна мета ІС</h3>
+                        <p class="text-sm text-indigo-800 mt-1">
+                            Збирання, зберігання, аналіз, опрацювання та розповсюдження даних для забезпечення ефективного прийняття рішень у різних галузях суспільства.
+                        </p>
+                    </div>
+
+                    <!-- Filterable Industry Grid -->
+                    <div class="pt-4">
+                        <h3 class="font-bold text-slate-800 mb-3">Приклади застосування за галузями:</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:shadow-md transition-all">
+                                <div class="text-indigo-600 text-2xl mb-2"><i class="fa-solid fa-building-columns"></i></div>
+                                <h4 class="font-bold text-slate-900">Банківські системи</h4>
+                                <p class="text-xs text-slate-600 mt-1">Обслуговування рахунків, транзакції, банкомати (напр. FlexCube, AБС).</p>
+                            </div>
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:shadow-md transition-all">
+                                <div class="text-indigo-600 text-2xl mb-2"><i class="fa-solid fa-ticket"></i></div>
+                                <h4 class="font-bold text-slate-900">Служби продажу квитків</h4>
+                                <p class="text-xs text-slate-600 mt-1">Онлайн-бронювання місць, касові апарати (напр. Укрзалізниця, Amadeus).</p>
+                            </div>
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:shadow-md transition-all">
+                                <div class="text-indigo-600 text-2xl mb-2"><i class="fa-solid fa-cloud-sun-rain"></i></div>
+                                <h4 class="font-bold text-slate-900">Метеорологічні центри</h4>
+                                <p class="text-xs text-slate-600 mt-1">Збір показників із супутників, суперкомп'ютерний аналіз погодних моделей.</p>
+                            </div>
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:shadow-md transition-all">
+                                <div class="text-indigo-600 text-2xl mb-2"><i class="fa-solid fa-book-bookmark"></i></div>
+                                <h4 class="font-bold text-slate-900">Освітні & Бібліотечні</h4>
+                                <p class="text-xs text-slate-600 mt-1">Облік електронних каталогів, журналів та успішності (ЄДЕБО, Human, НЗ.UA).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: Інформаційні процеси -->
+            <section id="sec-2" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">2</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Інформаційні процеси та послідовність їх виконання</h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <p class="text-slate-600 text-sm">Клікніть на будь-який етап нижче, щоб детально розглянути відповідний процес:</p>
+
+                    <!-- Interactive Pipeline Steps -->
+                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 relative">
+                        <button onclick="showProcessStep(1)" id="step-btn-1" class="process-step-btn p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-900 font-bold text-xs flex flex-col items-center gap-2 transition-all">
+                            <i class="fa-solid fa-file-import text-lg"></i>
+                            1. Збирання
+                        </button>
+                        <button onclick="showProcessStep(2)" id="step-btn-2" class="process-step-btn p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold text-xs flex flex-col items-center gap-2 hover:border-indigo-400 transition-all">
+                            <i class="fa-solid fa-tower-broadcast text-lg"></i>
+                            2. Передавання
+                        </button>
+                        <button onclick="showProcessStep(3)" id="step-btn-3" class="process-step-btn p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold text-xs flex flex-col items-center gap-2 hover:border-indigo-400 transition-all">
+                            <i class="fa-solid fa-gears text-lg"></i>
+                            3. Опрацювання
+                        </button>
+                        <button onclick="showProcessStep(4)" id="step-btn-4" class="process-step-btn p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold text-xs flex flex-col items-center gap-2 hover:border-indigo-400 transition-all">
+                            <i class="fa-solid fa-database text-lg"></i>
+                            4. Зберігання
+                        </button>
+                        <button onclick="showProcessStep(5)" id="step-btn-5" class="process-step-btn p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold text-xs flex flex-col items-center gap-2 hover:border-indigo-400 transition-all">
+                            <i class="fa-solid fa-shield-halved text-lg"></i>
+                            5. Захист / Видача
+                        </button>
+                    </div>
+
+                    <!-- Step Detail Box -->
+                    <div id="process-detail-box" class="p-5 rounded-xl bg-slate-50 border border-slate-200 min-h-[120px] transition-all">
+                        <h4 id="process-title" class="font-bold text-base text-indigo-900 mb-2">1. Збирання первинних даних</h4>
+                        <p id="process-desc" class="text-sm text-slate-600 leading-relaxed">
+                            Введення інформації з різноманітних джерел (клавіатура, датчики, сканери штрихкодів, зовнішні файли) для формування первинних масивів даних.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: Узагальнена структура ІС -->
+            <section id="sec-3" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">3</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Узагальнена структура ІС та взаємодія складових</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Hardware Card -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-indigo-400 transition-all">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-hard-drive text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900">1. Апаратне забезпечення (Hardware)</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Технічні пристрої введення (клавіатури, миші), опрацювання (процесор, RAM), зберігання (SSD, HDD) та виведення (монітори, принтери), а також мережеве обладнання.
+                        </p>
+                    </div>
+
+                    <!-- Software Card -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-indigo-400 transition-all">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-code text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900">2. Програмне забезпечення (Software)</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            <strong>Системне ПЗ</strong> (ОС, драйвери, СУБД) та <strong>Прикладне ПЗ</strong> (текстові процесори, спеціалізовані робочі комплекси), які керують роботою апаратури.
+                        </p>
+                    </div>
+
+                    <!-- Information Card -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-indigo-400 transition-all">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-folder-tree text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900">3. Інформаційне забезпечення</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Структуровані бази даних, класифікатори, нормативна документація, вхідні масиви повідомлень та вихідні звіти.
+                        </p>
+                    </div>
+
+                    <!-- Personnel Card -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-indigo-400 transition-all">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-users text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900">4. Кадри / Користувачі (Personnel)</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Кінцеві користувачі, які подають запити, та обслуговуючий персонал (системні адміністратори, розробники, інженери підтримки).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 text-white p-5 rounded-2xl space-y-2">
+                    <h4 class="font-bold text-indigo-400 text-sm"><i class="fa-solid fa-diagram-project mr-1"></i> Схема взаємодії складових:</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Користувач ➔ Введення даних пристроями ➔ Передавання каналами зв'язку ➔ Опрацювання в CPU під керуванням ПЗ ➔ Збереження в Базі Даних ➔ Формування результату для користувача.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 4: Добір програмних продуктів -->
+            <section id="sec-4" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">4</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Добір програмних продуктів для задач</h2>
+                </div>
+
+                <!-- Software Filter Buttons -->
+                <div class="flex flex-wrap gap-2 no-print">
+                    <button onclick="filterSoftware('all')" class="soft-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">Усі</button>
+                    <button onclick="filterSoftware('text')" class="soft-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300">Тексти</button>
+                    <button onclick="filterSoftware('publishing')" class="soft-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300">Верстка</button>
+                    <button onclick="filterSoftware('graphics')" class="soft-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300">Графіка</button>
+                    <button onclick="filterSoftware('browser')" class="soft-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300">Інтернет</button>
+                    <button onclick="filterSoftware('dev')" class="soft-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300">Програмування</button>
+                </div>
+
+                <!-- Software Gallery Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="software-gallery">
+                    <div class="soft-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm" data-cat="text">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-file-word text-blue-600 text-xl"></i>
+                            <h4 class="font-bold text-slate-900 text-sm">Текстові процесори</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-2">Написання, редагування та форматування документів.</p>
+                        <span class="inline-block bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded font-mono">MS Word, Google Docs, Writer</span>
+                    </div>
+
+                    <div class="soft-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm" data-cat="publishing">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-newspaper text-purple-600 text-xl"></i>
+                            <h4 class="font-bold text-slate-900 text-sm">Видавничі системи</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-2">Комп'ютерна верстка буклетів, газет, журналів.</p>
+                        <span class="inline-block bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded font-mono">MS Publisher, Scribus, InDesign</span>
+                    </div>
+
+                    <div class="soft-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm" data-cat="graphics">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-palette text-pink-600 text-xl"></i>
+                            <h4 class="font-bold text-slate-900 text-sm">Графічні редактори</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-2">Створення й редагування растрової та векторної графіки.</p>
+                        <span class="inline-block bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded font-mono">GIMP, Photoshop, Paint, Inkscape</span>
+                    </div>
+
+                    <div class="soft-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm" data-cat="browser">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-globe text-emerald-600 text-xl"></i>
+                            <h4 class="font-bold text-slate-900 text-sm">Браузери</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-2">Перегляд веб-сторінок та пошук інформації в мережі.</p>
+                        <span class="inline-block bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded font-mono">Google Chrome, Firefox, Edge</span>
+                    </div>
+
+                    <div class="soft-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm" data-cat="dev">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-code text-indigo-600 text-xl"></i>
+                            <h4 class="font-bold text-slate-900 text-sm">Системи програмування</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-2">Розробка нових програм та програмних комплексів.</p>
+                        <span class="inline-block bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded font-mono">Python, Scratch, Lazarus, VS Code</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: Правова взаємодія та КК України -->
+            <section id="sec-5" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">5</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Законодавство України в галузі цифрових технологій</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Basic Laws -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-scale-balanced text-indigo-600"></i>
+                            Основні Закони України
+                        </h3>
+                        <ul class="space-y-2 text-xs text-slate-600">
+                            <li class="p-2 bg-slate-50 rounded-lg"><strong>«Про авторське право і суміжні права»</strong> — захист прав розробників софту.</li>
+                            <li class="p-2 bg-slate-50 rounded-lg"><strong>«Про захист персональних даних»</strong> — порядок обробки особистої інформації.</li>
+                            <li class="p-2 bg-slate-50 rounded-lg"><strong>«Про інформацію»</strong> — право на одержання та використання інформації.</li>
+                            <li class="p-2 bg-slate-50 rounded-lg"><strong>«Про основні засади забезпечення кібербезпеки України»</strong> — протидія кіберзагрозам.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Criminal Code Articles -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="font-bold text-slate-900 text-base flex items-center gap-2 text-red-600">
+                            <i class="fa-solid fa-gavel"></i>
+                            Відповідальність за КК України
+                        </h3>
+                        <div class="space-y-2 text-xs">
+                            <div class="p-2 bg-red-50 border border-red-100 rounded-lg">
+                                <strong class="text-red-900">Ст. 176:</strong> Порушення авторського права (піратське тиражування софту).
+                            </div>
+                            <div class="p-2 bg-red-50 border border-red-100 rounded-lg">
+                                <strong class="text-red-900">Ст. 361:</strong> Несанкціоноване втручання в роботу комп'ютерів чи мереж (злом).
+                            </div>
+                            <div class="p-2 bg-red-50 border border-red-100 rounded-lg">
+                                <strong class="text-red-900">Ст. 361-1:</strong> Створення та розповсюдження шкідливого ПЗ (вірусів).
+                            </div>
+                            <div class="p-2 bg-red-50 border border-red-100 rounded-lg">
+                                <strong class="text-red-900">Ст. 182:</strong> Порушення недоторканності приватного життя (витік даних).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6-7: Ліцензії ПЗ та Open Source vs Proprietary -->
+            <section id="sec-6-7" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">6-7</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Ліцензії ПЗ: Відкритий (Open Source) та Закритий код</h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <!-- License Types Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <span class="text-[10px] font-bold uppercase text-indigo-600">Для організацій</span>
+                            <h4 class="font-bold text-slate-900 text-xs mt-1">Корпоративна / Підписка</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">Знижує вартість копії (напр. MS Office 365).</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <span class="text-[10px] font-bold uppercase text-indigo-600">З новим пристроєм</span>
+                            <h4 class="font-bold text-slate-900 text-xs mt-1">OEM-ліцензія</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">Прив'язана до апаратного забезпечення ПК.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <span class="text-[10px] font-bold uppercase text-emerald-600">Вільний код</span>
+                            <h4 class="font-bold text-slate-900 text-xs mt-1">Open Source / Free</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">Доступний код для змін (LibreOffice, Linux).</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <span class="text-[10px] font-bold uppercase text-amber-600">Безкоштовно без коду</span>
+                            <h4 class="font-bold text-slate-900 text-xs mt-1">Freeware</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">Безкоштовне використання без прав зміни коду.</p>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 border-b">
+                                    <th class="p-3 font-bold">Характеристика</th>
+                                    <th class="p-3 font-bold text-emerald-700">Відкритий код (Open Source)</th>
+                                    <th class="p-3 font-bold text-rose-700">Закритий код (Пропрієтарне ПЗ)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 text-slate-600">
+                                <tr>
+                                    <td class="p-3 font-semibold">Доступ до сирцевого коду</td>
+                                    <td class="p-3 text-emerald-600 font-medium">Так (Вільний доступ)</td>
+                                    <td class="p-3 text-rose-600 font-medium">Ні (Код засекречено)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">Право на модифікацію</td>
+                                    <td class="p-3">Дозволено редагувати та поширювати свої версії</td>
+                                    <td class="p-3">Заборонено змінювати або декомпілювати</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">Основні ліцензії</td>
+                                    <td class="p-3 font-mono text-[11px]">GNU GPL, MIT, Apache</td>
+                                    <td class="p-3 font-mono text-[11px]">Комерційна EULA</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">Приклади</td>
+                                    <td class="p-3">Linux, LibreOffice, GIMP, Blender</td>
+                                    <td class="p-3">Windows, MS Office, Adobe Photoshop</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 8: Етика та обмеження -->
+            <section id="sec-8" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">8</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Ліцензійні обмеження та Кіберетика</h2>
+                </div>
+
+                <p class="text-slate-600 text-sm">Наведіть або натисніть на картку, щоб перевернути її:</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Flip Card 1 -->
+                    <div class="flip-card h-48 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner shadow-md rounded-2xl">
+                            <div class="flip-card-front bg-white border border-slate-200 p-6 flex flex-col justify-between items-center text-center">
+                                <div class="text-indigo-600 text-3xl"><i class="fa-solid fa-lock"></i></div>
+                                <h3 class="font-bold text-slate-900 text-base">Правові обмеження</h3>
+                                <p class="text-xs text-slate-400">Натисніть для перегляду деталей</p>
+                            </div>
+                            <div class="flip-card-back bg-indigo-600 text-white p-6 flex flex-col justify-center text-center">
+                                <h4 class="font-bold text-sm mb-2">Правові норми</h4>
+                                <p class="text-xs leading-relaxed">
+                                    Заборонено декомпілювати, зламувати чи поширювати чужі пропрієтарні продукти. Для відкритого ПЗ вимагається збереження авторства початкової ліцензії.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flip Card 2 -->
+                    <div class="flip-card h-48 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner shadow-md rounded-2xl">
+                            <div class="flip-card-front bg-white border border-slate-200 p-6 flex flex-col justify-between items-center text-center">
+                                <div class="text-purple-600 text-3xl"><i class="fa-solid fa-heart-circle-check"></i></div>
+                                <h3 class="font-bold text-slate-900 text-base">Етичні норми (Кіберетика)</h3>
+                                <p class="text-xs text-slate-400">Натисніть для перегляду деталей</p>
+                            </div>
+                            <div class="flip-card-back bg-purple-700 text-white p-6 flex flex-col justify-center text-center">
+                                <h4 class="font-bold text-sm mb-2">Цифрова етика</h4>
+                                <p class="text-xs leading-relaxed">
+                                    Заборона плагіату, неприпустимість створення вірусів чи використання ПЗ на шкоду іншим людям. Повага до чужого інтелектуального внеску.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 9: Інсталяція та Деінсталяція -->
+            <section id="sec-9" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">9</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Інсталяція та Деінсталяція ПЗ</h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Installation steps -->
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-download text-indigo-600"></i>
+                                Процес Інсталяції
+                            </h3>
+                            <ul class="space-y-2 text-xs text-slate-600">
+                                <li class="p-2 bg-slate-50 rounded-lg">1. Запуск інсталяційного файла (`setup.exe`, `.deb`, `.dmg`).</li>
+                                <li class="p-2 bg-slate-50 rounded-lg">2. Узгодження параметрів із системою та прийняття ліцензії.</li>
+                                <li class="p-2 bg-slate-50 rounded-lg">3. Копіювання файлів у системні папки та записи в системний реєстр.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Uninstallation rules -->
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-trash-can text-rose-600"></i>
+                                Правильне Видалення (Деінсталяція)
+                            </h3>
+                            <ul class="space-y-2 text-xs text-slate-600">
+                                <li class="p-2 bg-slate-50 rounded-lg">Використовувати <strong>Панель керування / Налаштування ОС</strong>.</li>
+                                <li class="p-2 bg-slate-50 rounded-lg">Запускати виділений `uninstall.exe`.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Warning why trash is bad -->
+                    <div class="p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl text-xs text-amber-900">
+                        <strong>Чому не можна просто видалити папку з програмою в Кошик?</strong><br>
+                        Звичайне видалення папки залишає "сміттєві" залишкові файли у прихованих каталогах AppData, бібліотеках DLL та незадіяні ключі у системному реєстрі, що сповільнює роботу системи.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 10: Сумісність ПЗ -->
+            <section id="sec-10" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">10</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Особливості сумісності програмних продуктів</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="text-indigo-600 text-xl font-bold"><i class="fa-solid fa-microchip mr-1"></i> x86 vs ARM</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Апаратна архітектура</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Програми під x86 (Intel/AMD) не запускаються безпосередньо на ARM (смартфони, M1/M2/M3 Mac) без спеціальної емуляції чи трансляції.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="text-indigo-600 text-xl font-bold"><i class="fa-solid fa-layer-group mr-1"></i> 32 vs 64 біт</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Розрядність процесора</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            64-розрядні програми НЕ МОЖУТЬ виконуватися на 32-розрядних ОС чи процесорах через обмеження адресації пам'яті.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="text-indigo-600 text-xl font-bold"><i class="fa-brands fa-windows mr-1"></i> ОС та Версії</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Операційна сумісність</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            ПЗ для Windows не працює на Linux без додаткових програмних прошарків (наприклад, Wine / Proton).
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 11: Драйвери та Асистивні технології -->
+            <section id="sec-11" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">11</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Драйвери та Асистивні технології</h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-6">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-start gap-3">
+                        <div class="text-2xl text-indigo-600"><i class="fa-solid fa-wrench"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm">Що таке Драйвер?</h3>
+                            <p class="text-xs text-slate-600 mt-1">
+                                Це службова програма, що забезпечує взаємозв'язок та переклад команд між операційною системою і конкретною моделлю апаратного пристрою (принтера, відеокарти).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm mb-3">Цифрові технології для осіб з особливими потребами:</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- Visual impairments -->
+                            <div class="p-4 bg-blue-50/50 rounded-xl border border-blue-100">
+                                <h4 class="font-bold text-blue-900 text-xs flex items-center gap-1.5 mb-2">
+                                    <i class="fa-solid fa-eye-low-vision"></i> Порушення зору
+                                </h4>
+                                <ul class="text-[11px] text-blue-800 space-y-1">
+                                    <li>• Screen Readers (NVDA, VoiceOver)</li>
+                                    <li>• Екранні лупи & OCR</li>
+                                    <li>• Брайлівські дисплеї</li>
+                                </ul>
+                            </div>
+
+                            <!-- Hearing impairments -->
+                            <div class="p-4 bg-emerald-50/50 rounded-xl border border-emerald-100">
+                                <h4 class="font-bold text-emerald-900 text-xs flex items-center gap-1.5 mb-2">
+                                    <i class="fa-solid fa-ear-deaf"></i> Порушення слуху
+                                </h4>
+                                <ul class="text-[11px] text-emerald-800 space-y-1">
+                                    <li>• Динамічні автосубтитри</li>
+                                    <li>• Перетворення мовлення в текст</li>
+                                    <li>• Візуальні світлові сповіщення</li>
+                                </ul>
+                            </div>
+
+                            <!-- Motor impairments -->
+                            <div class="p-4 bg-purple-50/50 rounded-xl border border-purple-100">
+                                <h4 class="font-bold text-purple-900 text-xs flex items-center gap-1.5 mb-2">
+                                    <i class="fa-solid fa-wheelchair"></i> Порушення моторики
+                                </h4>
+                                <ul class="text-[11px] text-purple-800 space-y-1">
+                                    <li>• Керування поглядом (Eye-tracking)</li>
+                                    <li>• Голосове керування ПК</li>
+                                    <li>• Екранні клавіатури & трекболи</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 12: Інклюзивність та WCAG -->
+            <section id="sec-12" class="scroll-mt-20 space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">12</div>
+                    <h2 class="text-2xl font-bold text-slate-900">Інклюзивність та Доступність (WCAG)</h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-6">
+                    <p class="text-xs text-slate-600">
+                        Для покращення доступності інтерфейсів розробники застосовують налаштування спеціальних можливостей відповідно до рекомендацій WCAG:
+                    </p>
+
+                    <!-- Interactive Live WCAG Demo -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-4">
+                        <h3 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Демонстрація WCAG вимог:</h3>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                            <!-- Alt text demo -->
+                            <div class="p-3 bg-white rounded-lg border">
+                                <span class="font-bold text-slate-800 block mb-1">1. Альтернативний текст (Alt-text)</span>
+                                <div class="relative group cursor-pointer inline-block">
+                                    <span class="px-3 py-1.5 bg-indigo-100 text-indigo-700 rounded font-medium">
+                                        <i class="fa-solid fa-image mr-1"></i> Зображення схеми
+                                    </span>
+                                    <div class="absolute bottom-full mb-1 left-0 bg-slate-900 text-white text-[10px] p-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity w-48 pointer-events-none">
+                                        [Alt]: "Схема взаємодії користувача з базою даних через сервер"
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contrast Demo -->
+                            <div class="p-3 bg-white rounded-lg border">
+                                <span class="font-bold text-slate-800 block mb-1">2. Висока контрастність</span>
+                                <div class="flex gap-2 text-[11px]">
+                                    <span class="p-1.5 bg-gray-200 text-gray-400 rounded">Поганий контраст</span>
+                                    <span class="p-1.5 bg-slate-900 text-yellow-300 font-bold rounded">WCAG AA Контраст</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 13: Інтерактивний модуль перевірки знань -->
+            <section id="interactive-tools" class="scroll-mt-20 space-y-6 no-print">
+                <div class="bg-gradient-to-r from-indigo-900 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+                        <div>
+                            <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Практика та Самоперевірка</span>
+                            <h2 class="text-2xl font-bold">Закріплення матеріалу</h2>
+                        </div>
+                        <div class="text-indigo-400 text-3xl"><i class="fa-solid fa-award"></i></div>
+                    </div>
+
+                    <!-- Tabs Selector -->
+                    <div class="flex gap-3 border-b border-slate-800 pb-3">
+                        <button onclick="switchToolTab('quiz')" id="tab-btn-quiz" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white transition-all">
+                            <i class="fa-solid fa-list-check mr-1"></i> Онлайн-Тест
+                        </button>
+                        <button onclick="switchToolTab('flashcards')" id="tab-btn-flashcards" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-white transition-all">
+                            <i class="fa-solid fa-clone mr-1"></i> Картки (Flashcards)
+                        </button>
+                    </div>
+
+                    <!-- QUIZ PANEL -->
+                    <div id="panel-quiz" class="space-y-4">
+                        <div id="quiz-container" class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700 space-y-4">
+                            <!-- Quiz header -->
+                            <div class="flex justify-between items-center text-xs text-indigo-300">
+                                <span id="quiz-progress-text">Запитання 1 з 8</span>
+                                <span id="quiz-score-text">Бали: 0</span>
+                            </div>
+
+                            <!-- Question text -->
+                            <h3 id="quiz-question-text" class="font-bold text-base text-white">
+                                Завантаження запитання...
+                            </h3>
+
+                            <!-- Options grid -->
+                            <div id="quiz-options-grid" class="grid grid-cols-1 gap-2 pt-2">
+                                <!-- Options dynamically inserted via JS -->
+                            </div>
+
+                            <!-- Explanation Box -->
+                            <div id="quiz-explanation" class="hidden p-3 rounded-xl text-xs bg-slate-900 border border-slate-700"></div>
+
+                            <!-- Next button -->
+                            <div class="flex justify-end pt-2">
+                                <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-500">
+                                    Наступне запитання <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Final Score Screen (hidden by default) -->
+                        <div id="quiz-final-screen" class="hidden bg-slate-800 p-8 rounded-2xl border border-slate-700 text-center space-y-4">
+                            <div class="text-5xl text-yellow-400"><i class="fa-solid fa-trophy"></i></div>
+                            <h3 class="text-2xl font-bold">Тест завершено!</h3>
+                            <p id="quiz-final-score" class="text-sm text-slate-300">Ваш результат: 0 з 8 балів</p>
+                            <button onclick="resetQuiz()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all">
+                                Пройти знову
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- FLASHCARDS PANEL -->
+                    <div id="panel-flashcards" class="hidden space-y-4">
+                        <div class="flex justify-between items-center text-xs text-slate-400">
+                            <span>Натисніть на картку, щоб дізнатися відповідь</span>
+                            <span id="card-counter">1 / 8</span>
+                        </div>
+
+                        <!-- Flashcard Item -->
+                        <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner shadow-xl rounded-2xl">
+                                <div class="flip-card-front bg-slate-800 border border-slate-700 p-6 flex flex-col justify-between items-center text-center">
+                                    <span class="text-[10px] uppercase font-bold text-indigo-400">Термін / Поняття</span>
+                                    <h4 id="card-term" class="font-bold text-lg text-white">Інформаційна система</h4>
+                                    <span class="text-xs text-slate-400"><i class="fa-solid fa-rotate mr-1"></i> Натисніть для перевороту</span>
+                                </div>
+                                <div class="flip-card-back bg-indigo-900 border border-indigo-700 p-6 flex flex-col justify-between items-center text-center">
+                                    <span class="text-[10px] uppercase font-bold text-indigo-300">Визначення</span>
+                                    <p id="card-def" class="text-xs text-indigo-100 leading-relaxed">
+                                        Організована сукупність апаратних, програмних, інформаційних та людських ресурсів для збору, обробки, збереження і поширення даних.
+                                    </p>
+                                    <span class="text-xs text-indigo-300">Натисніть для повороту назад</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard Controls -->
+                        <div class="flex justify-center gap-3 pt-2">
+                            <button onclick="prevFlashcard()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-slate-700">
+                                <i class="fa-solid fa-chevron-left mr-1"></i> Назад
+                            </button>
+                            <button onclick="nextFlashcard()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl">
+                                Вперед <i class="fa-solid fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500 no-print">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© 2026 Навчальний інтерактивний конспект з Інформатики. Всі права захищено.</p>
+            <p>Розроблено згідно зі стандартами WCAG 2.1 AA</p>
+        </div>
+    </footer>
+
+    <script>
+        // Process Steps Data
+        const processSteps = [
+            {
+                title: "1. Збирання (Введення) даних",
+                desc: "Початковий етап збирання первинних даних із джерел (клавіатура, датчики, сканери) для формування вхідних масивів інформації."
+            },
+            {
+                title: "2. Передавання даних",
+                desc: "Транспортування даних від джерел до обчислювальних засобів дротовими або бездротовими каналами зв'язку."
+            },
+            {
+                title: "3. Опрацювання (Аналіз)",
+                desc: "Виконання обчислень, систематизації, агрегації та обробки даних процесором під керуванням відповідного ПЗ."
+            },
+            {
+                title: "4. Зберігання даних",
+                desc: "Впорядкований запис структурованих даних у бази даних та хмарні сховища для багаторазового використання."
+            },
+            {
+                title: "5. Захист та Розповсюдження (Видача)",
+                desc: "Шифрування, контроль доступу та візуалізація результатів на моніторах/принтерах чи передача за запитом."
+            }
+        ];
+
+        // Quiz Data
+        const quizData = [
+            {
+                q: "Що є головною метою інформаційної системи (ІС)?",
+                options: [
+                    "Тільки зберігання файлів на жорсткому диску",
+                    "Збирання, опрацювання та надання даних для прийняття рішень",
+                    "Продаж комп'ютерної техніки",
+                    "Повне заміщення людини в усіх сферах"
+                ],
+                correct: 1,
+                exp: "Головна мета ІС — це збирання, аналіз та розповсюдження інформації для ефективного прийняття рішень."
+            },
+            {
+                q: "Вкажіть правильну послідовність інформаційних процесів:",
+                options: [
+                    "Зберігання ➔ Передавання ➔ Збирання ➔ Видача",
+                    "Збирання ➔ Передавання ➔ Опрацювання ➔ Зберігання ➔ Захист/Видача",
+                    "Опрацювання ➔ Збирання ➔ Зберігання ➔ Захист",
+                    "Захист ➔ Видача ➔ Збирання ➔ Опрацювання"
+                ],
+                correct: 1,
+                exp: "Стандартний інформаційний пайплайн починається зі збору даних і завершується їх видачею/захистом."
+            },
+            {
+                q: "Яка стаття КК України передбачає відповідальність за несанкціоноване втручання в роботу комп'ютерів і мереж?",
+                options: [
+                    "Стаття 176",
+                    "Стаття 361",
+                    "Стаття 182",
+                    "Стаття 361-1"
+                ],
+                correct: 1,
+                exp: "Ст. 361 КК України карає за несанкціоноване втручання (злом) в роботу комп'ютерів чи автоматизованих систем."
+            },
+            {
+                q: "Який тип ліцензії постачається разом із новим пристроєм і прив'язаний до його обладнання?",
+                options: [
+                    "SaaS",
+                    "Open Source",
+                    "OEM-ліцензія",
+                    "Freeware"
+                ],
+                correct: 2,
+                exp: "OEM (Original Equipment Manufacturer) ліцензія прив'язується до конкретної материнської плати ПК."
+            },
+            {
+                q: "Чому не рекомендується видаляти програму перетягуванням її папки в Кошик?",
+                options: [
+                    "Це призводить до поломки процесора",
+                    "Залишаються сміттєві файли та незадіяні ключі у системному реєстрі",
+                    "Програма відновиться автоматично",
+                    "Це заборонено законодавством"
+                ],
+                correct: 1,
+                exp: "Просте видалення папки залишає тимчасові файли та записи реєстру, що засмічує ОС."
+            },
+            {
+                q: "Який програмний продукт належить до відкритого коду (Open Source)?",
+                options: [
+                    "Microsoft Windows",
+                    "LibreOffice",
+                    "Adobe Photoshop",
+                    "Microsoft Word"
+                ],
+                correct: 1,
+                exp: "LibreOffice та Linux є популярними прикладами продуктів із відкритим сирцевим кодом."
+            },
+            {
+                q: "Які засоби допомагають слабозорим та незрячим користувачам читати з екрана?",
+                options: [
+                    "Screen Readers (NVDA, VoiceOver)",
+                    "Динамічні субтитри",
+                    "Системи Eye-tracking",
+                    "Трекболи"
+                ],
+                correct: 0,
+                exp: "Screen Readers (зчитувачі екрана) озвучують текстовий вміст та елементи інтерфейсу."
+            },
+            {
+                q: "Чи можуть 64-розрядні програми безпосередньо виконуватися на 32-розрядних процесорах?",
+                options: [
+                    "Так, завжди",
+                    "Ні, 64-розрядне ПЗ вимагає 64-розрядного процесора та ОС",
+                    "Так, якщо встановити антивірус",
+                    "Так, але лише в режимі сумісності"
+                ],
+                correct: 1,
+                exp: "32-розрядний процесор апаратно не здатний обробляти 64-розрядні інструкції."
+            }
+        ];
+
+        // Flashcards Data
+        const flashcardsData = [
+            {
+                term: "Інформаційна система (ІС)",
+                def: "Організована сукупність апаратних, програмних, інформаційних та людських ресурсів для здійснення інформаційних процесів."
+            },
+            {
+                term: "Драйвер",
+                def: "Службова програма, що забезпечує взаємодію операційної системи з конкретною моделлю апаратного пристрою."
+            },
+            {
+                term: "Open Source (Відкритий код)",
+                def: "Програмне забезпечення з вільним доступом до вихідного коду для перегляду, зміни та розповсюдження."
+            },
+            {
+                term: "OEM-ліцензія",
+                def: "Ліцензія, яка постачається разом із пристроєм і прив'язана до його конкретного апаратного забезпечення."
+            },
+            {
+                term: "Screen Reader",
+                def: "Програма читання з екрана (NVDA, VoiceOver) для слабозорих, що перетворює текст у голосове звучання."
+            },
+            {
+                term: "Стаття 361 КК України",
+                def: "Кримінальна відповідальність за несанкціоноване втручання в роботу обчислювальних машин і мереж."
+            },
+            {
+                term: "Alt-текст (Альтернативний текст)",
+                def: "Текстовий опис зображення для зчитувачів екрана з метою забезпечення WCAG доступності."
+            },
+            {
+                term: "Сумісність ПЗ",
+                def: "Здатність програми функціонувати в конкретному апаратно-програмному середовищі (ОС, архітектура)."
+            }
+        ];
+
+        // Process Steps Click Handler
+        function showProcessStep(stepNum) {
+            document.querySelectorAll('.process-step-btn').forEach((btn, idx) => {
+                if (idx === stepNum - 1) {
+                    btn.classList.add('border-indigo-600', 'bg-indigo-50', 'text-indigo-900');
+                    btn.classList.remove('border-slate-200', 'bg-slate-50', 'text-slate-700');
+                } else {
+                    btn.classList.remove('border-indigo-600', 'bg-indigo-50', 'text-indigo-900');
+                    btn.classList.add('border-slate-200', 'bg-slate-50', 'text-slate-700');
+                }
+            });
+
+            const step = processSteps[stepNum - 1];
+            document.getElementById('process-title').innerText = step.title;
+            document.getElementById('process-desc').innerText = step.desc;
+        }
+
+        // Software Filter Handler
+        function filterSoftware(category) {
+            const cards = document.querySelectorAll('.soft-card');
+            const btns = document.querySelectorAll('.soft-filter-btn');
+
+            btns.forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-slate-200', 'text-slate-700');
+            });
+            event.target.classList.add('bg-indigo-600', 'text-white');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.cat === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Theme Switcher
+        function setTheme(theme) {
+            document.body.classList.remove('dark', 'high-contrast');
+            if (theme === 'dark') document.body.classList.add('dark');
+            if (theme === 'high-contrast') document.body.classList.add('high-contrast');
+        }
+
+        // Font Size Adjuster
+        function setFontSize(size) {
+            if (size === 'small') document.documentElement.style.fontSize = '14px';
+            if (size === 'medium') document.documentElement.style.fontSize = '16px';
+            if (size === 'large') document.documentElement.style.fontSize = '18px';
+        }
+
+        // Dyslexic Font Toggle
+        function toggleDyslexicFont(enabled) {
+            if (enabled) {
+                document.body.classList.add('dyslexic-font');
+            } else {
+                document.body.classList.remove('dyslexic-font');
+            }
+        }
+
+        // Reader Mode Toggle
+        function toggleReaderMode(enabled) {
+            const sidebar = document.getElementById('sidebar');
+            if (enabled) {
+                sidebar.classList.add('hidden');
+            } else {
+                sidebar.classList.remove('hidden');
+            }
+        }
+
+        // Quiz State
+        let currentQuestionIdx = 0;
+        let quizScore = 0;
+        let questionAnswered = false;
+
+        function loadQuestion() {
+            const q = quizData[currentQuestionIdx];
+            document.getElementById('quiz-progress-text').innerText = `Запитання ${currentQuestionIdx + 1} з ${quizData.length}`;
+            document.getElementById('quiz-score-text').innerText = `Бали: ${quizScore}`;
+            document.getElementById('quiz-question-text').innerText = q.q;
+
+            const grid = document.getElementById('quiz-options-grid');
+            grid.innerHTML = '';
+            document.getElementById('quiz-explanation').classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+            questionAnswered = false;
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "p-3 rounded-xl text-left text-xs bg-slate-700/60 hover:bg-slate-700 border border-slate-600 text-white transition-all";
+                btn.innerText = opt;
+                btn.onclick = () => selectQuizAnswer(idx, btn);
+                grid.appendChild(btn);
+            });
+        }
+
+        function selectQuizAnswer(selectedIdx, btnElement) {
+            if (questionAnswered) return;
+            questionAnswered = true;
+
+            const q = quizData[currentQuestionIdx];
+            const allBtns = document.getElementById('quiz-options-grid').children;
+
+            if (selectedIdx === q.correct) {
+                btnElement.classList.add('bg-emerald-600', 'border-emerald-500');
+                quizScore++;
+            } else {
+                btnElement.classList.add('bg-rose-600', 'border-rose-500');
+                allBtns[q.correct].classList.add('bg-emerald-600', 'border-emerald-500');
+            }
+
+            document.getElementById('quiz-score-text').innerText = `Бали: ${quizScore}`;
+            
+            const expBox = document.getElementById('quiz-explanation');
+            expBox.innerText = q.exp;
+            expBox.classList.remove('hidden');
+
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuestionIdx++;
+            if (currentQuestionIdx < quizData.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('quiz-container').classList.add('hidden');
+                const finalScreen = document.getElementById('quiz-final-screen');
+                finalScreen.classList.remove('hidden');
+                document.getElementById('quiz-final-score').innerText = `Ваш результат: ${quizScore} з ${quizData.length} балів`;
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestionIdx = 0;
+            quizScore = 0;
+            document.getElementById('quiz-final-screen').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        // Flashcards State
+        let flashcardIdx = 0;
+
+        function updateFlashcard() {
+            const card = flashcardsData[flashcardIdx];
+            document.getElementById('card-term').innerText = card.term;
+            document.getElementById('card-def').innerText = card.def;
+            document.getElementById('card-counter').innerText = `${flashcardIdx + 1} / ${flashcardsData.length}`;
+            
+            // reset flip state
+            document.querySelectorAll('.flip-card').forEach(fc => fc.classList.remove('flipped'));
+        }
+
+        function nextFlashcard() {
+            flashcardIdx = (flashcardIdx + 1) % flashcardsData.length;
+            updateFlashcard();
+        }
+
+        function prevFlashcard() {
+            flashcardIdx = (flashcardIdx - 1 + flashcardsData.length) % flashcardsData.length;
+            updateFlashcard();
+        }
+
+        function switchToolTab(tab) {
+            const quizPanel = document.getElementById('panel-quiz');
+            const flashcardPanel = document.getElementById('panel-flashcards');
+            const btnQuiz = document.getElementById('tab-btn-quiz');
+            const btnFc = document.getElementById('tab-btn-flashcards');
+
+            if (tab === 'quiz') {
+                quizPanel.classList.remove('hidden');
+                flashcardPanel.classList.add('hidden');
+                btnQuiz.className = "px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white transition-all";
+                btnFc.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-white transition-all";
+            } else {
+                quizPanel.classList.add('hidden');
+                flashcardPanel.classList.remove('hidden');
+                btnFc.className = "px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white transition-all";
+                btnQuiz.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-white transition-all";
+                updateFlashcard();
+            }
+        }
+
+        window.onload = function() {
+            // Load initial quiz & flashcard
+            loadQuestion();
+
+            // Modal Accessibility toggle
+            const modal = document.getElementById('a11y-modal');
+            document.getElementById('toggle-a11y-btn').onclick = () => modal.classList.remove('hidden');
+            document.getElementById('close-a11y-btn').onclick = () => modal.classList.add('hidden');
+
+            // Mobile menu toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            mobileBtn.onclick = () => {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
+            };
+            overlay.onclick = () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            };
+
+            // Reading Progress Bar
+            window.onscroll = function() {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById('reading-progress').style.width = scrolled + '%';
+            };
+
+            // Live Search
+            const searchInput = document.getElementById('search-input');
+            searchInput.oninput = function() {
+                const query = this.value.toLowerCase().trim();
+                if (!query) return;
+
+                const sections = document.querySelectorAll('main section');
+                sections.forEach(sec => {
+                    const text = sec.innerText.toLowerCase();
+                    if (text.includes(query)) {
+                        sec.style.opacity = '1';
+                    } else {
+                        sec.style.opacity = '0.3';
+                    }
+                });
+
+                if (query === '') {
+                    sections.forEach(sec => sec.style.opacity = '1');
+                }
+            };
+        };
+    </script>
+</body>
+</html>
